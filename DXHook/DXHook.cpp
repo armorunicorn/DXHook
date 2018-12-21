@@ -4,6 +4,7 @@
 #include "pch.h"
 #include <iostream>
 #include <easyhook.h>
+#include <d3dkmthk.h>
 //#include "include/log4cpp/Category.hh"
 //#include "include/log4cpp/PropertyConfigurator.hh"
 
@@ -12,6 +13,8 @@
 //#pragma comment(lib, "Ws2_32.lib")
 int main()
 {
+	//UINT a = sizeof(D3DDDI_ALLOCATIONINFO);
+	//UINT b = sizeof(D3DDDI_ALLOCATIONINFO2);
 
 	//log4cpp::Category::shutdown();
 	ULONG pid = 0;
