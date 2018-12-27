@@ -67,7 +67,7 @@ enum LogType
 	out
 };
 
-void SaveD3DKMT_CREATEALLOCATION(D3DKMT_CREATEALLOCATION *Arg1, UINT tpye, LogType inout, bool isD3D);
+void SaveD3DKMT_CREATEALLOCATION(D3DKMT_CREATEALLOCATION *Arg1, UINT tpye, LogType inout);
 void SaveD3DKMT_CREATEDEVICE(D3DKMT_CREATEDEVICE  *Arg1, log4cpp::Category& log, LogType inout);
 void SaveD3DKMT_CREATECONTEXT(D3DKMT_CREATECONTEXT  *Arg1, log4cpp::Category& log, LogType inout);
 void SaveD3DKMT_RENDER(D3DKMT_RENDER  *Arg1, log4cpp::Category& log, LogType inout);
@@ -75,11 +75,33 @@ void SaveD3DKMT_CREATECONTEXTVIRTUAL(D3DKMT_CREATECONTEXTVIRTUAL   *Arg1, log4cp
 void SaveD3DKMT_ESCAPE(D3DKMT_ESCAPE    *Arg1, log4cpp::Category& log, LogType inout);
 void SaveD3DKMT_SUBMITCOMMAND(D3DKMT_SUBMITCOMMAND     *Arg1, log4cpp::Category& log, LogType inout);
 void SaveD3DKMT_ENUMADAPTERS(D3DKMT_ENUMADAPTERS     *Arg1, log4cpp::Category& log, LogType inout);
-
+void SaveD3DKMT_QUERYADAPTERINFO(D3DKMT_QUERYADAPTERINFO *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_GETDISPLAYMODELIST(D3DKMT_GETDISPLAYMODELIST *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_ENUMADAPTERS2(D3DKMT_ENUMADAPTERS2 *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_CLOSEADAPTER(D3DKMT_CLOSEADAPTER  *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_GET_MULTIPLANE_OVERLAY_CAPS(D3DKMT_GET_MULTIPLANE_OVERLAY_CAPS   *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_CREATEPAGINGQUEUE(D3DKMT_CREATEPAGINGQUEUE *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_CREATESYNCHRONIZATIONOBJECT(D3DKMT_CREATESYNCHRONIZATIONOBJECT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_LOCK2(D3DKMT_LOCK2 *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_UNLOCK2(D3DKMT_UNLOCK2 *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DDDI_MAPGPUVIRTUALADDRESS(D3DDDI_MAPGPUVIRTUALADDRESS *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DDDI_MAKERESIDENT(D3DDDI_MAKERESIDENT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_SIGNALSYNCHRONIZATIONOBJECT(D3DKMT_SIGNALSYNCHRONIZATIONOBJECT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_GETDEVICESTATE(D3DKMT_GETDEVICESTATE *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_CHECKMONITORPOWERSTATE(D3DKMT_CHECKMONITORPOWERSTATE *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_QUERYRESOURCEINFO(D3DKMT_QUERYRESOURCEINFO *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_OPENRESOURCE(D3DKMT_OPENRESOURCE *Arg1, int type, LogType inout);
+void SaveD3DKMT_OFFERALLOCATIONS(D3DKMT_OFFERALLOCATIONS *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_PRESENT(D3DKMT_PRESENT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_RECLAIMALLOCATIONS2(D3DKMT_RECLAIMALLOCATIONS2 *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_DESTROYALLOCATION2(D3DKMT_DESTROYALLOCATION2 *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_DESTROYSYNCHRONIZATIONOBJECT(D3DKMT_DESTROYSYNCHRONIZATIONOBJECT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_DESTROYCONTEXT(D3DKMT_DESTROYCONTEXT *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DDDI_DESTROYPAGINGQUEUE(D3DDDI_DESTROYPAGINGQUEUE *Arg1, log4cpp::Category& log, LogType inout);
+void SaveD3DKMT_DESTROYDEVICE(D3DKMT_DESTROYDEVICE *Arg1, log4cpp::Category& log, LogType inout);
 //NtGdiDdDDI
-/*HOOK_FUN_DEF(D3DKMTCreateDevice, D3DKMT_CREATEDEVICE)
+
 DDI_HOOK_FUN_DEF(NtGdiDdDDICreateDevice, D3DKMT_CREATEDEVICE)
-//HOOK_FUN_DEF(D3DKMTCreateAllocation, D3DKMT_CREATEALLOCATION)
 //DDI_HOOK_FUN_DEF(NtGdiDdDDICreateAllocation, D3DKMT_CREATEALLOCATION)
 #define SET_DWORD(p, i, v) *((DWORD*)p + i) = v
 BOOL WINAPI D3DKMTCreateAllocationFake(D3DKMT_CREATEALLOCATION *Arg1)
@@ -89,22 +111,15 @@ BOOL WINAPI D3DKMTCreateAllocationFake(D3DKMT_CREATEALLOCATION *Arg1)
 	int type = 2;
 	__try
 	{
-		SaveD3DKMT_CREATEALLOCATION(Arg1, 2, in, true);
-		//Arg1->pAllocationInfo2->Priority = 0;
-		//Arg1->pAllocationInfo2->Reserved[0] = 0;
-		//Arg1->pAllocationInfo2->Reserved[1] = 0;
-		//Arg1->pAllocationInfo2->Reserved[2] = 0;
-		//Arg1->pAllocationInfo2->Reserved[3] = 0;
-		//Arg1->pAllocationInfo2->Reserved[4] = 0;
-		//Arg1->pAllocationInfo2->GpuVirtualAddress = 0;
+		SaveD3DKMT_CREATEALLOCATION(Arg1, 2, in);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		type = 1;
-		SaveD3DKMT_CREATEALLOCATION(Arg1, 1, in, true);
+		SaveD3DKMT_CREATEALLOCATION(Arg1, 1, in);
 	}
 	ret = D3DKMTCreateAllocation(Arg1);
-	SaveD3DKMT_CREATEALLOCATION(Arg1, type, out, true);
+	SaveD3DKMT_CREATEALLOCATION(Arg1, type, out);
 	return ret;
 }
 
@@ -115,35 +130,66 @@ BOOL WINAPI NtGdiDdDDICreateAllocationFake(D3DKMT_CREATEALLOCATION *Arg1)
 	int type = 2;
 	__try
 	{
-		SaveD3DKMT_CREATEALLOCATION(Arg1, 2, in, false);
+		SaveD3DKMT_CREATEALLOCATION(Arg1, 2, in);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
-		SaveD3DKMT_CREATEALLOCATION(Arg1, 1, in, false);
+		type = 1;
+		SaveD3DKMT_CREATEALLOCATION(Arg1, 1, in);
 	}
 	BOOL ret = NtGdiDdDDICreateAllocationOrg((void*)Arg1);
-	SaveD3DKMT_CREATEALLOCATION(Arg1, type, out, false);
+	SaveD3DKMT_CREATEALLOCATION(Arg1, type, out);
 	return ret;
-}*/
+}
 
-//HOOK_FUN_DEF(D3DKMTCreateContext, D3DKMT_CREATECONTEXT)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContext, D3DKMT_CREATECONTEXT)
-
-//HOOK_FUN_DEF(D3DKMTRender, D3DKMT_RENDER)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDIRender, D3DKMT_RENDER)
-
-//HOOK_FUN_DEF(D3DKMTCreateContextVirtual, D3DKMT_CREATECONTEXTVIRTUAL)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContextVirtual, D3DKMT_CREATECONTEXTVIRTUAL)
-
-//HOOK_FUN_DEF(D3DKMTEscape, D3DKMT_ESCAPE)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDIEscape, D3DKMT_ESCAPE)
-
-//HOOK_FUN_DEF(D3DKMTSubmitCommand, D3DKMT_SUBMITCOMMAND)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitCommand, D3DKMT_SUBMITCOMMAND)
-
-//HOOK_FUN_DEF(D3DKMTEnumAdapters, D3DKMT_ENUMADAPTERS)
-//DDI_HOOK_FUN_DEF(NtGdiDdDDIEnumAdapters, D3DKMT_ENUMADAPTERS)
-
+DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContext, D3DKMT_CREATECONTEXT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIRender, D3DKMT_RENDER)
+DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContextVirtual, D3DKMT_CREATECONTEXTVIRTUAL)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIEscape, D3DKMT_ESCAPE)
+DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitCommand, D3DKMT_SUBMITCOMMAND)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIEnumAdapters, D3DKMT_ENUMADAPTERS)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryAdapterInfo, D3DKMT_QUERYADAPTERINFO)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIGetDisplayModeList, D3DKMT_GETDISPLAYMODELIST)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIEnumAdapters2, D3DKMT_ENUMADAPTERS2)
+DDI_HOOK_FUN_DEF(NtGdiDdDDICloseAdapter, D3DKMT_CLOSEADAPTER)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIGetMultiPlaneOverlayCaps, D3DKMT_GET_MULTIPLANE_OVERLAY_CAPS)
+DDI_HOOK_FUN_DEF(NtGdiDdDDICreatePagingQueue, D3DKMT_CREATEPAGINGQUEUE)
+DDI_HOOK_FUN_DEF(NtGdiDdDDICreateSynchronizationObject, D3DKMT_CREATESYNCHRONIZATIONOBJECT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDILock2, D3DKMT_LOCK2)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIMapGpuVirtualAddress, D3DDDI_MAPGPUVIRTUALADDRESS)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIMakeResident, D3DDDI_MAKERESIDENT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIUnlock2, D3DKMT_UNLOCK2)
+DDI_HOOK_FUN_DEF(NtGdiDdDDISignalSynchronizationObject, D3DKMT_SIGNALSYNCHRONIZATIONOBJECT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIGetDeviceState, D3DKMT_GETDEVICESTATE)
+DDI_HOOK_FUN_DEF(NtGdiDdDDICheckMonitorPowerState, D3DKMT_CHECKMONITORPOWERSTATE)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryResourceInfo, D3DKMT_QUERYRESOURCEINFO)
+//DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenResource, D3DKMT_OPENRESOURCE)
+DDIFakeFunType NtGdiDdDDIOpenResourceOrg = (DDIFakeFunType)GetProcAddress(GetModuleHandle(TEXT("win32u")), "NtGdiDdDDIOpenResource");
+BOOL WINAPI NtGdiDdDDIOpenResourceFake(D3DKMT_OPENRESOURCE *Arg1)
+{
+	//log4cpp::Category& root = log4cpp::Category::getRoot();
+	int type = 2;
+	__try
+	{
+		SaveD3DKMT_OPENRESOURCE(Arg1, 2, in);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		type = 1;
+		SaveD3DKMT_OPENRESOURCE(Arg1, 1, in);
+	}
+	BOOL ret = NtGdiDdDDIOpenResourceOrg((void*)Arg1);
+	SaveD3DKMT_OPENRESOURCE(Arg1, type, out);
+	return ret;
+}
+DDI_HOOK_FUN_DEF(NtGdiDdDDIOfferAllocations, D3DKMT_OFFERALLOCATIONS)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIPresent, D3DKMT_PRESENT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIReclaimAllocations2, D3DKMT_RECLAIMALLOCATIONS2)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyAllocation2, D3DKMT_DESTROYALLOCATION2)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroySynchronizationObject, D3DKMT_DESTROYSYNCHRONIZATIONOBJECT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyContext, D3DKMT_DESTROYCONTEXT)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyPagingQueue, D3DDDI_DESTROYPAGINGQUEUE)
+DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyDevice, D3DKMT_DESTROYDEVICE)
 
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIAbandonSwapChain)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIAcquireKeyedMutex)
@@ -154,56 +200,34 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIAdjustFullscreenGamma)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICacheHybridQueryValue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIChangeVideoMemoryReservation)
 TEST_NOARG_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckExclusiveOwnership)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckMonitorPowerState)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckMultiPlaneOverlaySupport)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckMultiPlaneOverlaySupport2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckMultiPlaneOverlaySupport3)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckOcclusion)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckSharedResourceAccess)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICheckVidPnExclusiveOwnership)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICloseAdapter)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIConfigureSharedResource)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateAllocation)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateBundleObject)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContext)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateContextVirtual)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateDCFromMemory)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateDevice)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateHwContext)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateHwQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateKeyedMutex)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateKeyedMutex2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateOutputDupl)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateOverlay)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreatePagingQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateProtectedSession)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateSwapChain)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDICreateSynchronizationObject)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDDisplayEnum)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyAllocation)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyAllocation2)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyContext)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyDevice)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyHwContext)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyHwQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyKeyedMutex)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyOutputDupl)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyOverlay)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyPagingQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroyProtectedSession)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDestroySynchronizationObject)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDispMgrCreate)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDispMgrSourceOperation)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIDispMgrTargetOperation)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIEnumAdapters)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIEnumAdapters2)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIEscape)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIEvict)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIExtractBundleObject)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIFlipOverlay)
@@ -214,10 +238,7 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetCachedHybridQueryValue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetContextInProcessSchedulingPriority)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetContextSchedulingPriority)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetDWMVerticalBlankEvent)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetDeviceState)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetDisplayModeList)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetMemoryBudgetTarget)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetMultiPlaneOverlayCaps)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetMultisampleMethodList)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetOverlayState)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetPostCompositionCaps)
@@ -237,9 +258,6 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIGetYieldPercentage)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIInvalidateActiveVidPn)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIInvalidateCache)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDILock)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDILock2)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIMakeResident)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIMapGpuVirtualAddress)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIMarkDeviceAsError)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispGetNextChunkInfo)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispQueryMiracastDisplayDeviceStatus)
@@ -247,7 +265,6 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispQueryMiracastDisplayDeviceSupport)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispStartMiracastDisplayDevice)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispStopMiracastDisplayDevice)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDINetDispStopSessions)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOfferAllocations)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenAdapterFromDeviceName)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenAdapterFromHdc)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenAdapterFromLuid)
@@ -257,7 +274,6 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenKeyedMutex2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenKeyedMutexFromNtHandle)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenNtHandleFromName)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenProtectedSessionFromNtHandle)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenResource)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenResourceFromNtHandle)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenSwapChain)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOpenSyncObjectFromNtHandle)
@@ -271,12 +287,10 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOutputDuplPresent)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIOutputDuplReleaseFrame)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPinDirectFlipResources)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPollDisplayChildren)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPresent)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPresentMultiPlaneOverlay)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPresentMultiPlaneOverlay2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPresentMultiPlaneOverlay3)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIPresentRedirected)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryAdapterInfo)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryAllocationResidency)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryClockCalibration)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryFSEBlock)
@@ -284,20 +298,16 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryProcessOfferInfo)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryProtectedSessionInfoFromNtHandle)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryProtectedSessionStatus)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryRemoteVidPnSourceFromGdiDisplayName)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryResourceInfo)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryResourceInfoFromNtHandle)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryStatistics)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryVidPnExclusiveOwnership)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIQueryVideoMemoryInfo)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReclaimAllocations)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReclaimAllocations2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReleaseKeyedMutex)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReleaseKeyedMutex2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReleaseProcessVidPnSourceOwners)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReleaseSwapChain)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIRemoveSurfaceFromSwapChain)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIRender)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIReserveGpuVirtualAddress)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISetAllocationPriority)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISetContextInProcessSchedulingPriority)
@@ -323,19 +333,15 @@ TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISetYieldPercentage)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIShareObjects)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISharedPrimaryLockNotification)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISharedPrimaryUnLockNotification)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISignalSynchronizationObject)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISignalSynchronizationObjectFromCpu)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISignalSynchronizationObjectFromGpu)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISignalSynchronizationObjectFromGpu2)
-//111111111111
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitCommand)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitCommandToHwQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitSignalSyncObjectsToHwQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDISubmitWaitForSyncObjectsToHwQueue)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDITrimProcessCommitment)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUnOrderedPresentSwapChain)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUnlock)
-TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUnlock2)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUnpinDirectFlipResources)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUpdateAllocationProperty)
 TEST_DDI_HOOK_FUN_DEF(NtGdiDdDDIUpdateGpuVirtualAddress)
@@ -397,15 +403,11 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 	HOOK_FUN(NtGdiDdDDICheckVidPnExclusiveOwnership, NtGdiDdDDICheckVidPnExclusiveOwnershipFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDICloseAdapter, NtGdiDdDDICloseAdapterFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIConfigureSharedResource, NtGdiDdDDIConfigureSharedResourceFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDICreateAllocation, NtGdiDdDDICreateAllocationFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDICreateBundleObject, NtGdiDdDDICreateBundleObjectFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDICreateContext, NtGdiDdDDICreateContextFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDICreateContextVirtual, NtGdiDdDDICreateContextVirtualFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDICreateDCFromMemory, NtGdiDdDDICreateDCFromMemoryFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDICreateDevice, NtGdiDdDDICreateDeviceFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDICreateHwContext, NtGdiDdDDICreateHwContextFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDICreateHwQueue, NtGdiDdDDICreateHwQueueFake, win32u, root, result);
@@ -433,10 +435,8 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 	HOOK_FUN(NtGdiDdDDIDispMgrCreate, NtGdiDdDDIDispMgrCreateFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIDispMgrSourceOperation, NtGdiDdDDIDispMgrSourceOperationFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIDispMgrTargetOperation, NtGdiDdDDIDispMgrTargetOperationFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDIEnumAdapters, NtGdiDdDDIEnumAdaptersFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIEnumAdapters2, NtGdiDdDDIEnumAdapters2Fake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDIEscape, NtGdiDdDDIEscapeFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIEvict, NtGdiDdDDIEvictFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIExtractBundleObject, NtGdiDdDDIExtractBundleObjectFake, win32u, root, result);
@@ -530,7 +530,6 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 	HOOK_FUN(NtGdiDdDDIReleaseProcessVidPnSourceOwners, NtGdiDdDDIReleaseProcessVidPnSourceOwnersFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIReleaseSwapChain, NtGdiDdDDIReleaseSwapChainFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIRemoveSurfaceFromSwapChain, NtGdiDdDDIRemoveSurfaceFromSwapChainFake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDIRender, NtGdiDdDDIRenderFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDIReserveGpuVirtualAddress, NtGdiDdDDIReserveGpuVirtualAddressFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDISetAllocationPriority, NtGdiDdDDISetAllocationPriorityFake, win32u, root, result);
@@ -561,7 +560,6 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 	HOOK_FUN(NtGdiDdDDISignalSynchronizationObjectFromCpu, NtGdiDdDDISignalSynchronizationObjectFromCpuFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDISignalSynchronizationObjectFromGpu, NtGdiDdDDISignalSynchronizationObjectFromGpuFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDISignalSynchronizationObjectFromGpu2, NtGdiDdDDISignalSynchronizationObjectFromGpu2Fake, win32u, root, result);
-	//111111111111
 	HOOK_FUN(NtGdiDdDDISubmitCommand, NtGdiDdDDISubmitCommandFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDISubmitCommandToHwQueue, NtGdiDdDDISubmitCommandToHwQueueFake, win32u, root, result);
 	HOOK_FUN(NtGdiDdDDISubmitSignalSyncObjectsToHwQueue, NtGdiDdDDISubmitSignalSyncObjectsToHwQueueFake, win32u, root, result);
@@ -626,6 +624,22 @@ std::string FormatDWORD(DWORD value)
 	return ret;
 }
 
+std::string FormatINT(int value)
+{
+	char strBuf[10] = { 0 };
+	sprintf_s(strBuf, "%d", value);
+	std::string ret = std::string(strBuf);
+	return ret;
+}
+
+std::string FormatFloat(float value)
+{
+	char strBuf[30] = { 0 };
+	sprintf_s(strBuf, "%f", value);
+	std::string ret = std::string(strBuf);
+	return ret;
+}
+
 std::string FormatULONG64(ULONG64 value)
 {
 	char strBuf[20] = { 0 };
@@ -649,10 +663,10 @@ std::string FormatPVOID(char* pBuf, UINT bufSize, UINT step, const char* name)
 	pvoidStr += name;
 	pvoidStr += "\n";
 	stepBuf[step] = '\t';
-	if (bufSize == 0)
+	if (bufSize == 0 || pBuf == 0)
 	{
 		pvoidStr += stepBuf;
-		pvoidStr += "buffer size is 0\n";
+		pvoidStr += "buffer size or pBuf is 0\n";
 	}
 	else
 	{
@@ -691,15 +705,12 @@ std::string FormatPVOID(char* pBuf, UINT bufSize, UINT step, const char* name)
 	return pvoidStr;
 }
 
-void SaveD3DKMT_CREATEALLOCATION(D3DKMT_CREATEALLOCATION *Arg1, UINT type, LogType inout, bool isD3D)
+void SaveD3DKMT_CREATEALLOCATION(D3DKMT_CREATEALLOCATION *Arg1, UINT type, LogType inout)
 {
 	log4cpp::Category& root = log4cpp::Category::getRoot();
 	char tmpBuf[512] = { 0 };
 	std::string logstr = GetTID() + "\nstart struct D3DKMT_CREATEALLOCATION ";
-	if (isD3D)
-		logstr += "D3DKMT";
-	else
-		logstr += "NTDDI";
+
 	logstr += GetLogStr(inout) + "\n";
 	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
 	logstr += "\tmember D3DKMT_HANDLE hResource " + FormatDWORD(Arg1->hResource) + "\n";
@@ -791,7 +802,7 @@ void SaveD3DKMT_CREATEALLOCATION(D3DKMT_CREATEALLOCATION *Arg1, UINT type, LogTy
 	logstr += tmpstr;
 
 	logstr += "\tstart struct D3DKMT_CREATEALLOCATIONFLAGS Flags\n";
-	logstr += "\t\tmember " + FormatDWORD(*((DWORD*)&Arg1->Flags)) + "\n";
+	logstr += "\t\tmember Flags " + FormatDWORD(*((DWORD*)&Arg1->Flags)) + "\n";
 	logstr += "\tend struct D3DKMT_CREATEALLOCATIONFLAGS Flags\n";
 
 	logstr += "\t\tmember HANDLE hPrivateRuntimeResourceHandle " + FormatDWORD((DWORD)Arg1->hPrivateRuntimeResourceHandle) + "\n";
@@ -1101,3 +1112,641 @@ void SaveD3DKMT_ENUMADAPTERS(D3DKMT_ENUMADAPTERS     *Arg1, log4cpp::Category& l
 	logstr += "end struct D3DKMT_ENUMADAPTERS";
 	log.info(logstr);
 }
+
+void SaveD3DKMT_QUERYADAPTERINFO(D3DKMT_QUERYADAPTERINFO *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_QUERYADAPTERINFO ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "\tmember KMTQUERYADAPTERINFOTYPE Type " + FormatDWORD(Arg1->Type) + "\n";
+	logstr += FormatPVOID((char*)Arg1->pPrivateDriverData, Arg1->PrivateDriverDataSize, 1, "pPrivateDriverData");
+	logstr += "\tmember UINT PrivateDriverDataSize " + FormatDWORD(Arg1->PrivateDriverDataSize) + "\n";
+	logstr += "end struct D3DKMT_QUERYADAPTERINFO";
+	log.info(logstr);
+}
+
+void SaveD3DKMT_GETDISPLAYMODELIST(D3DKMT_GETDISPLAYMODELIST *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_GETDISPLAYMODELIST ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->VidPnSourceId) + "\n";
+	
+	logstr += "\tstart list\n";
+	if (Arg1->pModeList != 0)
+	{
+		for (ULONG i = 0; i < Arg1->ModeCount; i++)
+		{
+			logstr += "\t\tstart struct D3DKMT_DISPLAYMODE\n";
+			logstr += "\t\t\tmember UINT Width " + FormatDWORD(Arg1->pModeList[i].Width) + "\n";
+			logstr += "\t\t\tmember UINT Height " + FormatDWORD(Arg1->pModeList[i].Height) + "\n";
+			logstr += "\t\t\tmember D3DDDIFORMAT Format " + FormatDWORD(Arg1->pModeList[i].Format) + "\n";
+			logstr += "\t\t\tmember UINT IntegerRefreshRate " + FormatDWORD(Arg1->pModeList[i].IntegerRefreshRate) + "\n";
+			logstr += "\t\t\tstart struct D3DDDI_RATIONAL RefreshRate\n";
+			logstr += "\t\t\t\tmember UINT Numerator " + FormatDWORD(Arg1->pModeList[i].RefreshRate.Numerator) + "\n";
+			logstr += "\t\t\t\tmember UINT Denominator " + FormatDWORD(Arg1->pModeList[i].RefreshRate.Denominator) + "\n";
+			logstr += "\t\t\tend struct D3DDDI_RATIONAL RefreshRate\n";
+			logstr += "\t\t\tmember D3DDDI_VIDEO_SIGNAL_SCANLINE_ORDERING ScanLineOrdering " + FormatDWORD(Arg1->pModeList[i].ScanLineOrdering) + "\n";
+			logstr += "\t\t\tmember D3DDDI_ROTATION DisplayOrientation " + FormatDWORD(Arg1->pModeList[i].DisplayOrientation) + "\n";
+			logstr += "\t\t\tmember UINT DisplayFixedOutput " + FormatDWORD(Arg1->pModeList[i].DisplayFixedOutput) + "\n";
+			logstr += "\t\t\tmember UINT Flags " + FormatDWORD(*(DWORD*)&Arg1->pModeList[i].Flags) + "\n";
+			logstr += "\t\tend struct D3DKMT_DISPLAYMODE\n";
+		}
+	}
+	logstr += "\tend list\n";
+
+	logstr += "\tmember UINT ModeCount " + FormatDWORD(Arg1->ModeCount) + "\n";
+	logstr += "end struct D3DKMT_GETDISPLAYMODELIST";
+	log.info(logstr);
+}
+
+
+void SaveD3DKMT_ENUMADAPTERS2(D3DKMT_ENUMADAPTERS2 *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_ENUMADAPTERS2 ";
+	logstr += GetLogStr(inout) + "\n";
+
+	logstr += "\tmember UINT NumAdapters " + FormatDWORD(Arg1->NumAdapters) + "\n";
+
+	if (Arg1->pAdapters != 0)
+	{
+		logstr += "\tstart list\n";
+		for (ULONG i = 0; i < Arg1->NumAdapters; i++)
+		{
+			logstr += "\t\tstart struct D3DKMT_ADAPTERINFO\n";
+			logstr += "\t\t\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->pAdapters[i].hAdapter) + "\n";
+			logstr += "\t\tend struct D3DKMT_ADAPTERINFO\n";
+		}
+		logstr += "\tend list\n";
+	}
+	else
+	{
+		logstr += "\tmember PVOID pAdapters 0\n";
+	}
+
+	logstr += "end struct D3DKMT_ENUMADAPTERS2";
+	log.info(logstr);
+}
+
+void SaveD3DKMT_CLOSEADAPTER(D3DKMT_CLOSEADAPTER  *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_CLOSEADAPTER ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "end struct D3DKMT_CLOSEADAPTER";
+	log.info(logstr);
+}
+
+void SaveD3DKMT_GET_MULTIPLANE_OVERLAY_CAPS(D3DKMT_GET_MULTIPLANE_OVERLAY_CAPS   *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_GET_MULTIPLANE_OVERLAY_CAPS ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->VidPnSourceId) + "\n";
+	logstr += "\tmember UINT MaxPlanes " + FormatDWORD(Arg1->MaxPlanes) + "\n";
+	logstr += "\tmember UINT MaxRGBPlanes " + FormatDWORD(Arg1->MaxRGBPlanes) + "\n";
+	logstr += "\tmember UINT MaxYUVPlanes " + FormatDWORD(Arg1->MaxYUVPlanes) + "\n";
+	logstr += "\tmember D3DKMT_MULTIPLANE_OVERLAY_CAPS OverlayCaps " + FormatDWORD(*(DWORD*)&Arg1->OverlayCaps) + "\n";
+	logstr += "\tmember float MaxStretchFactor " + FormatFloat(Arg1->MaxStretchFactor) + "\n";
+	logstr += "\tmember float MaxShrinkFactor " + FormatFloat(Arg1->MaxShrinkFactor) + "\n";
+	logstr += "end struct D3DKMT_GET_MULTIPLANE_OVERLAY_CAPS";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_CREATEPAGINGQUEUE(D3DKMT_CREATEPAGINGQUEUE    *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_CREATEPAGINGQUEUE ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DDDI_PAGINGQUEUE_PRIORITY Priority " + FormatDWORD(Arg1->Priority) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hPagingQueue " + FormatDWORD(Arg1->hPagingQueue) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hSyncObject " + FormatDWORD(Arg1->hSyncObject) + "\n";
+	logstr += "\tmember VOID* MaxYUVPlanes " + FormatDWORD((DWORD)Arg1->FenceValueCPUVirtualAddress) + "\n";
+	logstr += "\tmember UINT PhysicalAdapterIndex " + FormatDWORD(Arg1->PhysicalAdapterIndex) + "\n";
+	logstr += "end struct D3DKMT_CREATEPAGINGQUEUE";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_CREATESYNCHRONIZATIONOBJECT(D3DKMT_CREATESYNCHRONIZATIONOBJECT    *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_CREATESYNCHRONIZATIONOBJECT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+
+	logstr += "\tstart struct D3DDDI_SYNCHRONIZATIONOBJECTINFO Info\n";
+	logstr += "\t\tmember D3DDDI_SYNCHRONIZATIONOBJECT_TYPE Type " + FormatDWORD(*((DWORD*)&Arg1->Info.Type)) + "\n";
+	logstr += "\t\tstart union\n";
+	logstr += "\t\t\tmember BOOL InitialState " + FormatDWORD((DWORD)Arg1->Info.SynchronizationMutex.InitialState) + "\n";
+	logstr += "\t\t\tmember UINT MaxCount " + FormatDWORD(Arg1->Info.Semaphore.MaxCount) + "\n";
+	logstr += "\t\t\tmember UINT InitialCount " + FormatDWORD(Arg1->Info.Semaphore.InitialCount) + "\n";
+	logstr += FormatPVOID((char*)&Arg1->Info.Reserved, 16 * sizeof(UINT), 3, "Reserved");
+	logstr += "\t\tend union\n";
+	logstr += "\tend struct D3DDDI_SYNCHRONIZATIONOBJECTINFO Info\n";
+
+	logstr += "\tmember D3DKMT_HANDLE hSyncObject " + FormatDWORD(Arg1->hSyncObject) + "\n";
+	logstr += "end struct D3DKMT_CREATESYNCHRONIZATIONOBJECT";
+
+
+
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_LOCK2(D3DKMT_LOCK2 *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_LOCK2 ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(Arg1->hAllocation) + "\n";
+	logstr += "\tmember D3DDDICB_LOCK2FLAGS Flags " + FormatDWORD(*(DWORD*)&Arg1->Flags) + "\n";
+	logstr += "\tmember PVOID pData " + FormatDWORD((DWORD)Arg1->pData) + "\n";
+	logstr += "end struct D3DKMT_LOCK2";
+
+	log.info(logstr);
+}
+
+void SaveD3DDDI_MAPGPUVIRTUALADDRESS(D3DDDI_MAPGPUVIRTUALADDRESS *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DDDI_MAPGPUVIRTUALADDRESS ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hPagingQueue " + FormatDWORD(Arg1->hPagingQueue) + "\n";
+	logstr += "\tmember D3DGPU_VIRTUAL_ADDRESS BaseAddress " + FormatULONG64(Arg1->BaseAddress) + "\n";
+	logstr += "\tmember D3DGPU_VIRTUAL_ADDRESS MinimumAddress " + FormatULONG64(Arg1->MinimumAddress) + "\n";
+	logstr += "\tmember D3DGPU_VIRTUAL_ADDRESS MaximumAddress " + FormatULONG64(Arg1->MaximumAddress) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(Arg1->hAllocation) + "\n";
+	logstr += "\tmember D3DGPU_SIZE_T OffsetInPages " + FormatULONG64(Arg1->OffsetInPages) + "\n";
+	logstr += "\tmember D3DGPU_SIZE_T SizeInPages " + FormatULONG64(Arg1->SizeInPages) + "\n";
+	logstr += "\tmember D3DDDIGPUVIRTUALADDRESS_PROTECTION_TYPE Protection " + FormatDWORD(*(DWORD*)&Arg1->Protection) + "\n";
+	logstr += "\tmember UINT64 DriverProtection " + FormatULONG64(Arg1->DriverProtection) + "\n";
+	logstr += "\tmember UINT Reserved0 " + FormatDWORD(Arg1->Reserved0) + "\n";
+	logstr += "\tmember UINT64 Reserved1 " + FormatULONG64(Arg1->Reserved1) + "\n";
+	logstr += "\tmember D3DGPU_VIRTUAL_ADDRESS VirtualAddress " + FormatULONG64(Arg1->VirtualAddress) + "\n";
+	logstr += "\tmember UINT64 PagingFenceValue " + FormatULONG64(Arg1->PagingFenceValue) + "\n";
+	logstr += "end struct D3DDDI_MAPGPUVIRTUALADDRESS";
+
+	log.info(logstr);
+}
+
+void SaveD3DDDI_MAKERESIDENT(D3DDDI_MAKERESIDENT *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DDDI_MAKERESIDENT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hPagingQueue " + FormatDWORD(Arg1->hPagingQueue) + "\n";
+	logstr += "\tmember UINT NumAllocations " + FormatDWORD(Arg1->NumAllocations) + "\n";
+	logstr += "\tstart list AllocationList\n";
+	for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->AllocationList[i]) + "\n";
+	}
+	logstr += "\tend list AllocationList\n";
+	logstr += "\tstart list PriorityList\n";
+	for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->PriorityList[i]) + "\n";
+	}
+	logstr += "\tend list PriorityList\n";
+
+	logstr += "\tmember D3DDDI_MAKERESIDENT_FLAGS Flags " + FormatDWORD(*(DWORD*)&Arg1->Flags) + "\n";
+	logstr += "\tmember UINT64 PagingFenceValue " + FormatULONG64(Arg1->PagingFenceValue) + "\n";
+	logstr += "\tmember UINT64 NumBytesToTrim " + FormatULONG64(Arg1->NumBytesToTrim) + "\n";
+	logstr += "end struct D3DDDI_MAKERESIDENT";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_UNLOCK2(D3DKMT_UNLOCK2 *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_UNLOCK2 ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(Arg1->hAllocation) + "\n";
+	logstr += "end struct D3DKMT_UNLOCK2";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_SIGNALSYNCHRONIZATIONOBJECT(D3DKMT_SIGNALSYNCHRONIZATIONOBJECT *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_SIGNALSYNCHRONIZATIONOBJECT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hContext " + FormatDWORD(Arg1->hContext) + "\n";
+	logstr += "\tmember UINT ObjectCount " + FormatDWORD(Arg1->ObjectCount) + "\n";
+	logstr += "\tstart list ObjectHandleArray\n";
+	for (ULONG i = 0; i < Arg1->ObjectCount; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->ObjectHandleArray[i]) + "\n";
+	}
+	logstr += "\tend list ObjectHandleArray\n";
+	
+	logstr += "\tmember D3DDDICB_SIGNALFLAGS Flags " + FormatDWORD(*(DWORD*)&Arg1->Flags) + "\n";
+	logstr += "end struct D3DKMT_SIGNALSYNCHRONIZATIONOBJECT";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_GETDEVICESTATE(D3DKMT_GETDEVICESTATE *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_GETDEVICESTATE ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_DEVICESTATE_TYPE StateType " + FormatDWORD(*(DWORD*)&Arg1->StateType) + "\n";
+
+
+	logstr += "\tstart union\n";
+	logstr += "\t\tmember D3DKMT_DEVICEEXECUTION_STATE ExecutionState " + FormatDWORD(*(DWORD*)&Arg1->ExecutionState) + "\n";
+	logstr += "\t\tmember D3DKMT_DEVICEPRESENT_STATE PresentState " + FormatDWORD(*(DWORD*)&Arg1->PresentState) + "\n";
+	logstr += "\t\tmember D3DKMT_DEVICERESET_STATE ResetState " + FormatDWORD(*(DWORD*)&Arg1->ResetState) + "\n";
+
+	logstr += "\t\tmember start struct D3DKMT_DEVICEPRESENT_STATE_DWM PresentStateDWM\n";
+	logstr += "\t\t\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->PresentStateDWM.VidPnSourceId) + "\n";
+	logstr += "\t\t\tmember start struct D3DKMT_PRESENT_STATS_DWM PresentStatsDWM\n";
+	logstr += "\t\t\t\tmember UINT PresentCount " + FormatDWORD(Arg1->PresentStateDWM.PresentStatsDWM.PresentCount) + "\n";
+	logstr += "\t\t\t\tmember UINT PresentRefreshCount " + FormatDWORD(Arg1->PresentStateDWM.PresentStatsDWM.PresentRefreshCount) + "\n";
+	logstr += "\t\t\t\tmember LARGE_INTEGER PresentQPCTime " + FormatULONG64(Arg1->PresentStateDWM.PresentStatsDWM.PresentQPCTime.QuadPart) + "\n";
+	logstr += "\t\t\t\tmember UINT SyncRefreshCount " + FormatDWORD(Arg1->PresentStateDWM.PresentStatsDWM.SyncRefreshCount) + "\n";
+	logstr += "\t\t\t\tmember LARGE_INTEGER SyncQPCTime " + FormatULONG64(Arg1->PresentStateDWM.PresentStatsDWM.SyncQPCTime.QuadPart) + "\n";
+	logstr += "\t\t\t\tmember UINT CustomPresentDuration " + FormatDWORD(Arg1->PresentStateDWM.PresentStatsDWM.CustomPresentDuration) + "\n";
+	logstr += "\t\t\tmember end struct D3DKMT_PRESENT_STATS_DWM PresentStatsDWM\n";
+	logstr += "\t\tmember end struct D3DKMT_DEVICEPRESENT_STATE_DWM PresentStateDWM\n";
+
+	logstr += "\t\tmember start struct D3DKMT_DEVICEPAGEFAULT_STATE PageFaultState\n";
+	logstr += "\t\t\tmember UINT64 FaultedPrimitiveAPISequenceNumber " + FormatULONG64(Arg1->PageFaultState.FaultedPrimitiveAPISequenceNumber) + "\n";
+	logstr += "\t\t\tmember DXGK_RENDER_PIPELINE_STAGE FaultedPipelineStage " + FormatDWORD(*(DWORD*)&Arg1->PageFaultState.FaultedPipelineStage) + "\n";
+	logstr += "\t\t\tmember UINT FaultedBindTableEntry " + FormatDWORD(Arg1->PageFaultState.FaultedBindTableEntry) + "\n";
+	logstr += "\t\t\tmember DXGK_PAGE_FAULT_FLAGS PageFaultFlags " + FormatDWORD(*(DWORD*)&Arg1->PageFaultState.PageFaultFlags) + "\n";
+	logstr += "\t\t\tmember DXGK_FAULT_ERROR_CODE FaultErrorCode " + FormatDWORD(*(DWORD*)&Arg1->PageFaultState.FaultErrorCode) + "\n";
+	logstr += "\t\t\tmember D3DGPU_VIRTUAL_ADDRESS FaultedVirtualAddress " + FormatULONG64(Arg1->PageFaultState.FaultedVirtualAddress) + "\n";
+	logstr += "\t\tmember end struct D3DKMT_DEVICEPAGEFAULT_STATE PageFaultState\n";
+
+	logstr += "\t\tmember start struct D3DKMT_DEVICEPRESENT_QUEUE_STATE PresentQueueState\n";
+	logstr += "\t\t\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->PresentQueueState.VidPnSourceId) + "\n";
+	logstr += "\t\t\tmember BOOLEAN bQueuedPresentLimitReached " + FormatDWORD(Arg1->PresentQueueState.bQueuedPresentLimitReached) + "\n";
+	logstr += "\t\tmember end struct D3DKMT_DEVICEPRESENT_QUEUE_STATE PresentQueueState\n";
+
+	logstr += "\tend union\n";
+
+	logstr += "end struct D3DKMT_GETDEVICESTATE";
+
+	log.info(logstr);
+}
+
+
+void SaveD3DKMT_CHECKMONITORPOWERSTATE(D3DKMT_CHECKMONITORPOWERSTATE *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_CHECKMONITORPOWERSTATE ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->VidPnSourceId) + "\n";
+	logstr += "end struct D3DKMT_CHECKMONITORPOWERSTATE";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_QUERYRESOURCEINFO(D3DKMT_QUERYRESOURCEINFO *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = "\nstart struct D3DKMT_QUERYRESOURCEINFO ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hGlobalShare " + FormatDWORD(Arg1->hGlobalShare) + "\n";
+	logstr += FormatPVOID((char*)Arg1->pPrivateRuntimeData, Arg1->PrivateRuntimeDataSize, 1, "pPrivateRuntimeData");
+	logstr += "\tmember UINT PrivateRuntimeDataSize " + FormatDWORD(Arg1->PrivateRuntimeDataSize) + "\n";
+	logstr += "\tmember UINT TotalPrivateDriverDataSize " + FormatDWORD(Arg1->TotalPrivateDriverDataSize) + "\n";
+	logstr += "\tmember UINT ResourcePrivateDriverDataSize " + FormatDWORD(Arg1->ResourcePrivateDriverDataSize) + "\n";
+	logstr += "\tmember UINT NumAllocations " + FormatDWORD(Arg1->NumAllocations) + "\n";
+	logstr += "end struct D3DKMT_QUERYRESOURCEINFO";
+
+	log.info(logstr);
+}
+
+
+void SaveD3DKMT_OPENRESOURCE(D3DKMT_OPENRESOURCE *Arg1, int type, LogType inout)
+{
+	log4cpp::Category& root = log4cpp::Category::getRoot();
+	//char tmpBuf[512] = { 0 };
+	std::string logstr = "\nstart struct D3DKMT_OPENRESOURCE ";
+
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hGlobalShare " + FormatDWORD(Arg1->hGlobalShare) + "\n";
+	
+	logstr += "\tmember UINT NumAllocations " + FormatDWORD(Arg1->NumAllocations) + "\n";
+	std::string tmpstr = "";
+
+	//try D3DDDI_ALLOCATIONINFO2 
+
+	if (type == 2)
+	{
+		tmpstr += "\tstart list\n";
+		for (UINT i = 0; i < Arg1->NumAllocations; i++)
+		{
+			D3DDDI_OPENALLOCATIONINFO2 *cur_ptr = Arg1->pOpenAllocationInfo2 + i;
+			tmpstr += "\t\tstart struct D3DDDI_OPENALLOCATIONINFO2\n";
+			tmpstr += "\t\t\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(cur_ptr->hAllocation) + "\n";
+
+
+			tmpstr += FormatPVOID((char*)cur_ptr->pPrivateDriverData, cur_ptr->PrivateDriverDataSize, 3, "pPrivateDriverData");
+			tmpstr += "\t\t\tmember UINT PrivateDriverDataSize " + FormatDWORD(cur_ptr->PrivateDriverDataSize) + "\n";
+
+			tmpstr += "\t\t\t\tmember D3DGPU_VIRTUAL_ADDRESS GpuVirtualAddress " + FormatDWORD((DWORD)cur_ptr->GpuVirtualAddress) + "\n";
+
+			tmpstr += FormatPVOID((char*)cur_ptr->Reserved, 6 * sizeof(ULONG), 3, "Reserved");
+			tmpstr += "\t\tend struct D3DDDI_OPENALLOCATIONINFO2\n";
+		}
+		tmpstr += "\tend list\n";
+	}
+	else
+	{
+		//is D3DDDI_ALLOCATIONINFO
+		tmpstr += "\tstart list\n";
+		for (UINT i = 0; i < Arg1->NumAllocations; i++)
+		{
+			D3DDDI_OPENALLOCATIONINFO  *cur_ptr = Arg1->pOpenAllocationInfo + i;
+			tmpstr += "\t\tstart struct D3DDDI_OPENALLOCATIONINFO\n";
+			tmpstr += "\t\t\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(cur_ptr->hAllocation) + "\n";
+
+
+			tmpstr += FormatPVOID((char*)cur_ptr->pPrivateDriverData, cur_ptr->PrivateDriverDataSize, 3, "pPrivateDriverData");
+			tmpstr += "\t\t\tmember UINT PrivateDriverDataSize " + FormatDWORD(cur_ptr->PrivateDriverDataSize) + "\n";
+			tmpstr += "\t\tend struct D3DDDI_OPENALLOCATIONINFO\n";
+		}
+		tmpstr += "\tend list\n";
+	}
+	logstr += tmpstr;
+
+	logstr += FormatPVOID((char*)Arg1->pPrivateRuntimeData, Arg1->PrivateRuntimeDataSize, 1, "pPrivateRuntimeData");
+	logstr += "\tmember UINT PrivateRuntimeDataSize " + FormatDWORD(Arg1->PrivateRuntimeDataSize) + "\n";
+
+	logstr += FormatPVOID((char*)Arg1->pResourcePrivateDriverData, Arg1->ResourcePrivateDriverDataSize, 1, "pResourcePrivateDriverData");
+	logstr += "\tmember UINT ResourcePrivateDriverDataSize " + FormatDWORD(Arg1->ResourcePrivateDriverDataSize) + "\n";
+
+	logstr += FormatPVOID((char*)Arg1->pTotalPrivateDriverDataBuffer, Arg1->TotalPrivateDriverDataBufferSize, 1, "pTotalPrivateDriverDataBuffer");
+	logstr += "\tmember UINT TotalPrivateDriverDataBufferSize " + FormatDWORD(Arg1->TotalPrivateDriverDataBufferSize) + "\n";
+
+	logstr += "\t\tmember D3DKMT_HANDLE hResource " + FormatDWORD((DWORD)Arg1->hResource) + "\n";
+	logstr += "end struct D3DKMT_OPENRESOURCE";
+	root.info(logstr);
+}
+
+void SaveD3DKMT_OFFERALLOCATIONS(D3DKMT_OFFERALLOCATIONS *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = "\nstart struct D3DKMT_OFFERALLOCATIONS ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	if (Arg1->pResources != 0)
+	{
+		logstr += "\tstart list pResources\n";
+		for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+		{
+			logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->pResources[i]) + "\n";
+		}
+		logstr += "\tend list pResources\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DKMT_HANDLE pResources 0\n";
+	}
+
+	if (Arg1->HandleList != 0)
+	{
+		logstr += "\tstart list HandleList\n";
+		for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+		{
+			logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->HandleList[i]) + "\n";
+		}
+		logstr += "\tend list HandleList\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DKMT_HANDLE HandleList 0\n";
+	}
+
+	logstr += "\tmember UINT NumAllocations " + FormatDWORD(Arg1->NumAllocations) + "\n";
+	logstr += "\tmember D3DKMT_OFFER_PRIORITY Priority " + FormatDWORD(Arg1->Priority) + "\n";
+	logstr += "\tmember Flags " + FormatDWORD(*((DWORD*)&Arg1->Flags)) + "\n";
+	
+	logstr += "end struct D3DKMT_OFFERALLOCATIONS";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_PRESENT(D3DKMT_PRESENT *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = "\nstart struct D3DKMT_PRESENT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hContext " + FormatDWORD(Arg1->hContext) + "\n";
+	logstr += "\tmember HWND hWindow " + FormatDWORD((DWORD)Arg1->hWindow) + "\n";
+	logstr += "\tmember D3DDDI_VIDEO_PRESENT_SOURCE_ID VidPnSourceId " + FormatDWORD(Arg1->VidPnSourceId) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hSource " + FormatDWORD(Arg1->hSource) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDestination " + FormatDWORD(Arg1->hDestination) + "\n";
+	logstr += "\tmember UINT Color " + FormatDWORD(Arg1->Color) + "\n";
+
+	logstr += "\tstart struct RECT DstRect\n";
+	logstr += "\t\tmember LONG left " + FormatINT(Arg1->DstRect.left) + "\n";
+	logstr += "\t\tmember LONG top " + FormatINT(Arg1->DstRect.top) + "\n";
+	logstr += "\t\tmember LONG right " + FormatINT(Arg1->DstRect.right) + "\n";
+	logstr += "\t\tmember LONG bottom " + FormatINT(Arg1->DstRect.bottom) + "\n";
+	logstr += "\tend struct RECT DstRect\n";
+
+	logstr += "\tstart struct RECT SrcRect\n";
+	logstr += "\t\tmember LONG left " + FormatINT(Arg1->SrcRect.left) + "\n";
+	logstr += "\t\tmember LONG top " + FormatINT(Arg1->SrcRect.top) + "\n";
+	logstr += "\t\tmember LONG right " + FormatINT(Arg1->SrcRect.right) + "\n";
+	logstr += "\t\tmember LONG bottom " + FormatINT(Arg1->SrcRect.bottom) + "\n";
+	logstr += "\tend struct RECT SrcRect\n";
+
+	logstr += "\tmember UINT SubRectCnt " + FormatDWORD(Arg1->SubRectCnt) + "\n";
+	if (Arg1->SubRectCnt != 0)
+	{
+		logstr += "\tstart list pSrcSubRects\n";
+		for (ULONG i = 0; i < Arg1->SubRectCnt; i++)
+		{
+			logstr += "\t\tstart struct RECT SrcRect\n";
+			logstr += "\t\t\tmember LONG left " + FormatINT(Arg1->pSrcSubRects[i].left) + "\n";
+			logstr += "\t\t\tmember LONG top " + FormatINT(Arg1->pSrcSubRects[i].top) + "\n";
+			logstr += "\t\t\tmember LONG right " + FormatINT(Arg1->pSrcSubRects[i].right) + "\n";
+			logstr += "\t\t\tmember LONG bottom " + FormatINT(Arg1->pSrcSubRects[i].bottom) + "\n";
+			logstr += "\t\tend struct RECT SrcRect\n";
+		}
+		logstr += "\tend list pSrcSubRects\n";
+	}
+	else
+	{
+		logstr += "\tmember RECT* pSrcSubRects 0\n";
+	}
+
+	logstr += "\tmember UINT PresentCount " + FormatDWORD(Arg1->PresentCount) + "\n";
+	logstr += "\tmember D3DDDI_FLIPINTERVAL_TYPE FlipInterval " + FormatDWORD(Arg1->FlipInterval) + "\n";
+	logstr += "\tmember D3DKMT_PRESENTFLAGS Flags " + FormatDWORD(*((DWORD*)&Arg1->Flags)) + "\n";
+	logstr += "\tmember ULONG PresentCoBroadcastContextCountunt " + FormatDWORD(Arg1->BroadcastContextCount) + "\n";
+	logstr += "\tstart list BroadcastContext\n";
+	for (ULONG i = 0; i < Arg1->BroadcastContextCount; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->BroadcastContext[i]) + "\n";
+	}
+	logstr += "\tend list BroadcastContext\n";
+
+	logstr += "\tmember HANDLE PresentLimitSemaphore " + FormatDWORD((DWORD)Arg1->PresentLimitSemaphore) + "\n";
+
+	logstr += FormatPVOID((char*)&Arg1->PresentHistoryToken, sizeof(D3DKMT_PRESENTHISTORYTOKEN), 1, "PresentHistoryToken");
+	
+	if (Arg1->pPresentRegions != 0)
+	{
+		logstr += "\tstart struct D3DKMT_PRESENT_RGNS pPresentRegions\n";
+		logstr += "\t\tmember UINT DirtyRectCount " + FormatDWORD(Arg1->pPresentRegions->DirtyRectCount) + "\n";
+		logstr += "\t\tmember RECT* pDirtyRects " + FormatDWORD((DWORD)Arg1->pPresentRegions->pDirtyRects) + "\n";
+		logstr += "\t\tmember UINT MoveRectCount " + FormatDWORD(Arg1->pPresentRegions->MoveRectCount) + "\n";
+		logstr += "\t\tmember D3DKMT_MOVE_RECT* pMoveRects " + FormatDWORD((DWORD)Arg1->pPresentRegions->pMoveRects) + "\n";
+		logstr += "\tend struct D3DKMT_PRESENT_RGNS pPresentRegions\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DKMT_PRESENT_RGNS* pPresentRegions 0\n";
+	}
+	logstr += "\tmember D3DKMT_HANDLE hAdapter " + FormatDWORD(Arg1->hAdapter) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hIndirectContext " + FormatDWORD(Arg1->hIndirectContext) + "\n";
+	logstr += "\tmember UINT Duration " + FormatDWORD(Arg1->Duration) + "\n";
+
+	logstr += "\tstart list BroadcastSrcAllocation\n";
+	for (ULONG i = 0; i < Arg1->BroadcastContextCount; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->BroadcastSrcAllocation[i]) + "\n";
+	}
+	logstr += "\tend list BroadcastSrcAllocation\n";
+
+	logstr += "\tstart list BroadcastDstAllocation\n";
+	for (ULONG i = 0; i < Arg1->BroadcastContextCount; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->BroadcastDstAllocation[i]) + "\n";
+	}
+	logstr += "\tend list BroadcastDstAllocation\n";
+
+	logstr += "\tmember UINT PrivateDriverDataSize " + FormatDWORD(Arg1->PrivateDriverDataSize) + "\n";
+	logstr += FormatPVOID((char*)Arg1->pPrivateDriverData, Arg1->PrivateDriverDataSize, 1, "pPrivateDriverData");
+
+	logstr += "\tmember BOOLEAN bOptimizeForComposition " + FormatDWORD(Arg1->bOptimizeForComposition) + "\n";
+	
+
+	logstr += "end struct D3DKMT_PRESENT";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_RECLAIMALLOCATIONS2(D3DKMT_RECLAIMALLOCATIONS2 *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = "\nstart struct D3DKMT_RECLAIMALLOCATIONS2 ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hPagingQueue " + FormatDWORD(Arg1->hPagingQueue) + "\n";
+	logstr += "\tmember UINT NumAllocations " + FormatDWORD(Arg1->NumAllocations) + "\n";
+
+	if (Arg1->pResources != 0)
+	{
+		logstr += "\tstart list pResources\n";
+		for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+		{
+			logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->pResources[i]) + "\n";
+		}
+		logstr += "\tend list pResources\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DKMT_HANDLE pResources 0\n";
+	}
+
+	if (Arg1->HandleList != 0)
+	{
+		logstr += "\tstart list HandleList\n";
+		for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+		{
+			logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->HandleList[i]) + "\n";
+		}
+		logstr += "\tend list HandleList\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DKMT_HANDLE HandleList 0\n";
+	}
+
+	if (Arg1->pResults != 0)
+	{
+		logstr += "\tstart list pResults\n";
+		for (ULONG i = 0; i < Arg1->NumAllocations; i++)
+		{
+			logstr += "\t\tmember D3DDDI_RECLAIM_RESULT " + FormatDWORD(Arg1->pResults[i]) + "\n";
+		}
+		logstr += "\tend list pResults\n";
+	}
+	else
+	{
+		logstr += "\tmember D3DDDI_RECLAIM_RESULT pResults 0\n";
+	}
+
+	logstr += "\tmember UINT64 PagingFenceValue " + FormatULONG64(Arg1->PagingFenceValue) + "\n";
+
+	logstr += "end struct D3DKMT_RECLAIMALLOCATIONS2";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_DESTROYALLOCATION2(D3DKMT_DESTROYALLOCATION2 *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_DESTROYALLOCATION2 ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hResource " + FormatDWORD(Arg1->hResource) + "\n";
+	logstr += "\tstart list phAllocationList\n";
+	for (ULONG i = 0; i < Arg1->AllocationCount; i++)
+	{
+		logstr += "\t\tmember D3DKMT_HANDLE " + FormatDWORD(Arg1->phAllocationList[i]) + "\n";
+	}
+	logstr += "\tend list phAllocationList\n";
+	logstr += "\tmember UINT AllocationCount " + FormatDWORD(Arg1->AllocationCount) + "\n";
+	logstr += "\tmember D3DDDICB_DESTROYALLOCATION2FLAGS Flags " + FormatDWORD(*((DWORD*)&Arg1->Flags)) + "\n";
+
+	logstr += "end struct D3DKMT_DESTROYALLOCATION2";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_DESTROYSYNCHRONIZATIONOBJECT(D3DKMT_DESTROYSYNCHRONIZATIONOBJECT *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_DESTROYSYNCHRONIZATIONOBJECT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hSyncObject " + FormatDWORD(Arg1->hSyncObject) + "\n";
+	logstr += "end struct D3DKMT_DESTROYSYNCHRONIZATIONOBJECT";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_DESTROYCONTEXT(D3DKMT_DESTROYCONTEXT *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DKMT_DESTROYCONTEXT ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hContext " + FormatDWORD(Arg1->hContext) + "\n";
+	logstr += "end struct D3DKMT_DESTROYCONTEXT";
+
+	log.info(logstr);
+}
+
+void SaveD3DDDI_DESTROYPAGINGQUEUE(D3DDDI_DESTROYPAGINGQUEUE *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DDDI_DESTROYPAGINGQUEUE ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hPagingQueue " + FormatDWORD(Arg1->hPagingQueue) + "\n";
+	logstr += "end struct D3DDDI_DESTROYPAGINGQUEUE";
+
+	log.info(logstr);
+}
+
+void SaveD3DKMT_DESTROYDEVICE(D3DKMT_DESTROYDEVICE *Arg1, log4cpp::Category& log, LogType inout)
+{
+	std::string logstr = GetTID() + "\nstart struct D3DDDI_DESTROYPAGINGQUEUE ";
+	logstr += GetLogStr(inout) + "\n";
+	logstr += "\tmember D3DKMT_HANDLE hDevice " + FormatDWORD(Arg1->hDevice) + "\n";
+	logstr += "end struct D3DDDI_DESTROYPAGINGQUEUE";
+
+	log.info(logstr);
+}
+//end
