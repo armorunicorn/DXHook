@@ -20,6 +20,7 @@ int main()
 	ULONG pid = 0;
 	NTSTATUS nt = RhCreateAndInject(
 		(wchar_t*)L"F:\\Shovel_Knight\\ShovelKnight.exe",   // The process to inject into
+		//(wchar_t*)L"C:\\Users\\Saber\\Desktop\\Shovel Knight\\ShovelKnight.exe",
 		(wchar_t*)L"",           // ThreadId to wake up upon injection
 		0,
 		EASYHOOK_INJECT_DEFAULT,

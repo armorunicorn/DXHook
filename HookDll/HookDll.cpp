@@ -902,30 +902,44 @@ void SaveD3DKMT_CREATECONTEXT(D3DKMT_CREATECONTEXT  *Arg1, log4cpp::Category& lo
 
 	logstr += "\tstart list\n";
 	D3DDDI_ALLOCATIONLIST *cur_allocation;
-	for (UINT i = 0; i < Arg1->AllocationListSize; i++)
+	if (Arg1->pAllocationList != 0)
 	{
-		logstr += "\t\tstart struct D3DDDI_ALLOCATIONLIST\n";
-		cur_allocation = Arg1->pAllocationList + i;
-		logstr += "\t\t\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(cur_allocation->hAllocation) + "\n";
-		logstr += "\t\t\tmember UINT Value " + FormatDWORD(cur_allocation->Value) + "\n";
-		logstr += "\t\tend struct D3DDDI_ALLOCATIONLIST\n";
+		for (UINT i = 0; i < Arg1->AllocationListSize; i++)
+		{
+			logstr += "\t\tstart struct D3DDDI_ALLOCATIONLIST\n";
+			cur_allocation = Arg1->pAllocationList + i;
+			logstr += "\t\t\tmember D3DKMT_HANDLE hAllocation " + FormatDWORD(cur_allocation->hAllocation) + "\n";
+			logstr += "\t\t\tmember UINT Value " + FormatDWORD(cur_allocation->Value) + "\n";
+			logstr += "\t\tend struct D3DDDI_ALLOCATIONLIST\n";
+		}
+	}
+	else
+	{
+		logstr += "\t\t member D3DDDI_ALLOCATIONLIST* pAllocationList 0\n";
 	}
 	logstr += "\tend list\n";
 	logstr += "\tmember UINT AllocationListSize " + FormatDWORD(Arg1->AllocationListSize) + "\n";
 
 	logstr += "\tstart list\n";
-	D3DDDI_PATCHLOCATIONLIST *cur_patchlocaton;
-	for (UINT i = 0; i < Arg1->PatchLocationListSize; i++)
+	if (Arg1->pPatchLocationList != 0)
 	{
-		logstr += "\t\tstart struct D3DDDI_PATCHLOCATIONLIST\n";
-		cur_patchlocaton = Arg1->pPatchLocationList + i;
-		logstr += "\t\t\tmember UINT AllocationIndex " + FormatDWORD(cur_patchlocaton->AllocationIndex) + "\n";
-		logstr += "\t\t\tmember UINT Value " + FormatDWORD(cur_patchlocaton->Value) + "\n";
-		logstr += "\t\t\tmember UINT DriverId " + FormatDWORD(cur_patchlocaton->DriverId) + "\n";
-		logstr += "\t\t\tmember UINT AllocationOffset " + FormatDWORD(cur_patchlocaton->AllocationOffset) + "\n";
-		logstr += "\t\t\tmember UINT PatchOffset " + FormatDWORD(cur_patchlocaton->PatchOffset) + "\n";
-		logstr += "\t\t\tmember UINT SplitOffset " + FormatDWORD(cur_patchlocaton->SplitOffset) + "\n";
-		logstr += "\t\tend struct D3DDDI_PATCHLOCATIONLIST\n";
+		D3DDDI_PATCHLOCATIONLIST *cur_patchlocaton;
+		for (UINT i = 0; i < Arg1->PatchLocationListSize; i++)
+		{
+			logstr += "\t\tstart struct D3DDDI_PATCHLOCATIONLIST\n";
+			cur_patchlocaton = Arg1->pPatchLocationList + i;
+			logstr += "\t\t\tmember UINT AllocationIndex " + FormatDWORD(cur_patchlocaton->AllocationIndex) + "\n";
+			logstr += "\t\t\tmember UINT Value " + FormatDWORD(cur_patchlocaton->Value) + "\n";
+			logstr += "\t\t\tmember UINT DriverId " + FormatDWORD(cur_patchlocaton->DriverId) + "\n";
+			logstr += "\t\t\tmember UINT AllocationOffset " + FormatDWORD(cur_patchlocaton->AllocationOffset) + "\n";
+			logstr += "\t\t\tmember UINT PatchOffset " + FormatDWORD(cur_patchlocaton->PatchOffset) + "\n";
+			logstr += "\t\t\tmember UINT SplitOffset " + FormatDWORD(cur_patchlocaton->SplitOffset) + "\n";
+			logstr += "\t\tend struct D3DDDI_PATCHLOCATIONLIST\n";
+		}
+	}
+	else
+	{
+		logstr += "\t\t member D3DDDI_PATCHLOCATIONLIST* pPatchLocationList 0\n";
 	}
 	logstr += "\tend list\n";
 	logstr += "\tmember UINT PatchLocationListSize " + FormatDWORD(Arg1->PatchLocationListSize) + "\n";
@@ -1249,7 +1263,7 @@ void SaveD3DKMT_CREATESYNCHRONIZATIONOBJECT(D3DKMT_CREATESYNCHRONIZATIONOBJECT  
 	logstr += "end struct D3DKMT_CREATESYNCHRONIZATIONOBJECT";
 
 
-
+	Arg1->Info.Reserved.Reserved[5] = 0;
 
 	log.info(logstr);
 }
