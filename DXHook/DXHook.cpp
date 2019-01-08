@@ -19,12 +19,14 @@ int main()
 	//log4cpp::Category::shutdown();
 	ULONG pid = 0;
 	NTSTATUS nt = RhCreateAndInject(
-		(wchar_t*)L"F:\\Shovel_Knight\\ShovelKnight.exe",   // The process to inject into
+		(wchar_t*)L"C:\\Users\\Saber\\Documents\\project\\DirectX-Graphics-Samples\\Samples\\Desktop\\D3D12xGPU\\src\\bin\\Win32\\Debug\\D3D12xGPU.exe",   // The process to inject into
+		//(wchar_t*)L"D3D12Bundles.exe",
 		//(wchar_t*)L"C:\\Users\\Saber\\Desktop\\Shovel Knight\\ShovelKnight.exe",
 		(wchar_t*)L"",           // ThreadId to wake up upon injection
 		0,
 		EASYHOOK_INJECT_DEFAULT,
 		(wchar_t*)L"C:\\Users\\Saber\\Documents\\project\\DXHook\\Debug\\HookDll.dll", // 32-bit
+		//(wchar_t*)L"HookDll.dll",
 		NULL,		 // 64-bit not provided
 		NULL, // data to send to injected DLL entry point
 		0,// size of data to send
